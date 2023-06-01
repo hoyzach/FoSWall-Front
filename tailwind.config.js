@@ -7,12 +7,23 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontStyle: ['placeholder'],
+      fontFamily: {
+        montserrat: ["var(--font-montserrat"],
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      colors: {
+        'primary': '#00CED1',
+      },
     },
-  },
-  plugins: [],
-}
+    textColor: {
+      'primary': '#00CED1',
+      'black': '#000000',
+      'white': '#ffffff'
+    }},
+    plugins: [],
+  } 
