@@ -24,16 +24,16 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [publicProvider()]
 );
 
-const projectId = 'YOUR_PROJECT_ID';
+const projectId = 'bcdee4db8a6a9d881ea7c895f57b2413';
 
 const { wallets } = getDefaultWallets({
-  appName: 'RainbowKit demo',
+  appName: 'FoSWall',
   projectId,
   chains,
 });
 
-const demoAppInfo = {
-  appName: 'Rainbowkit Demo',
+const AppInfo = {
+  appName: 'FoSWall',
 };
 
 const connectors = connectorsForWallets([
@@ -60,7 +60,7 @@ export function Providers({ children }) {
   React.useEffect(() => setMounted(true), []);
   return (
     <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider coolMode chains={chains} appInfo={demoAppInfo} theme={darkTheme()}>
+      <RainbowKitProvider coolMode chains={chains} appInfo={AppInfo} theme={darkTheme()}>
         {mounted && children}
       </RainbowKitProvider>
     </WagmiConfig>
