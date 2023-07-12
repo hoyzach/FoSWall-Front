@@ -1,56 +1,59 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons'
+'use client'
+import { useEffect, useState } from 'react';
+import { tokenData } from './tokenData';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import useAddLike from '../../utils/functions';
 
-export const metadata = {
-    title: 'Wall'
-}
+export default function Wall() {
+  const [data, setData] = useState([]);
+  const [reload, setReload] = useState(false);
 
-export default function Wall(props) {
-    const cardData = [
-        {
-            id: 1,
-            expression: "Really very super duper super duper super duper longish expression right here",
-        },
-        {
-            id: 2,
-            expression: "Another super duper longish expression right here",
-        },
-        {
-            id: 1,
-            expression: "Really very super duper super duper super duper longish expression right here",
-        },
-        {
-            id: 1,
-            expression: "Really very super duper super duper super duper longish expression right here",
-        },
-        {
-            id: 1,
-            expression: "Really very super duper super duper super duper longish expression right here",
-        },
-    ];
+  useEffect(() => {
+    async function fetchData() {
+      const data = await tokenData();
+      setData(data);
+    }
 
-    return (
-    <div className="flex flex-col sm:flex-row justify-center items-center">
-        {cardData.map((data) => (
-        <div key={data.id} className="w-1/2 sm:w-1/6 text-black text-center bg-gray-900 px-5 py-5 m-2 rounded">
-            <div className="flex flex-col justify-around h-full items-center">
-            <div className="tracking-wide text-sm text-white font-bold">FoS#{data.id}</div>
-            <div className="tracking-wide text-sm text-primary">{data.expression}</div>
-            <div className="tracking-wide text-sm text-white">Likes: </div>
-            <div className="tracking-wide text-sm text-white">Dislikes: </div>
-            <div className="flex justify-around w-full mt-3">
-                <button onClick={props.handleLike} className="text-white focus:outline-none mt-0">
-                <FontAwesomeIcon icon={faThumbsUp} />
-                </button>
-                <button onClick={props.handleDislike} className="text-white focus:outline-none mt-1">
-                <FontAwesomeIcon icon={faThumbsDown} />
-                </button>
-            </div>
-            </div>
+    fetchData();
+  }, [reload]);
+
+  const handleUserAction = () => {
+    // Perform your specific action here...
+
+    // Then reload data
+    setReload(prevState => !prevState);
+  };
+
+  const { addLike, likeFee, isLikeLoading, txSuccess, txError } = useAddLike();
+
+  const handleLike = (tokenId) => {
+    console.log(`Liked item ${tokenId}!`);
+    addLike(tokenId); 
+  };
+
+  const handleDislike = (tokenId) => {
+    console.log(`Disliked item ${tokenId}!`);
+    // Perform your specific action here...
+  };
+
+  return (
+    <div className="flex flex-wrap justify-center item-center px-4 lg:px-16">
+      {data.map((token) => (
+        <div key={token.tokenId} className="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+          <img src={token.imageData} alt={`Token ${token.tokenId} Image`} className="w-full h-auto rounded-corners"/>
+          <div className="flex justify-around pt-4 pb-4">
+            <button className="border border-gray-300 bg-white text-black px-2 py-1 rounded" onClick={() => handleLike(token.tokenId)}>
+              <FontAwesomeIcon icon={faThumbsUp} />
+            </button>
+            <button className="border border-gray-300 bg-white text-black px-2 pt-1 rounded" onClick={() => handleDislike(token.tokenId)}>
+              <FontAwesomeIcon icon={faThumbsDown} />
+            </button>
+          </div>
         </div>
-        ))}
+      ))}
     </div>
   );
+  
+  
 }
-

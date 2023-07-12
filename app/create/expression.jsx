@@ -1,13 +1,7 @@
 'use client';
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons'
 
-export const metadata = {
-    title: 'Create'
-}
-
-export default function Create(props) {
+export function Expression(props) {
     const [expression, setExpression] = useState('');
     const [error, setError] = useState('');
 
@@ -51,16 +45,6 @@ export default function Create(props) {
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Create</button>
                 </div>
             </form>
-
-            {/* Preview Card */}
-            <div className="w-1/2 text-black text-center bg-gray-900 px-5 py-5 m-2 rounded">
-                <div className="flex flex-col justify-around h-full items-center">
-                    <div className="tracking-wide text-sm text-white font-bold">Preview</div>
-                    <div className="tracking-wide text-sm text-primary">{expression}</div>
-                    <div className="tracking-wide text-sm text-white">Likes: 0</div>
-                    <div className="tracking-wide text-sm text-white">Dislikes: 0</div>
-                </div>
-            </div>
         </>
     );
 }

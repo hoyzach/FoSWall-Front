@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
                   <ConnectButton />
               </div>
           </nav>
-          <div className="bg-gradient-to-b from-black to-primary w-screen h-screen flex flex-col items-center justify-center">
+          <div className="bg-gradient-to-b from-black to-primary w-full min-h-screen flex flex-col items-center justify-center overflow-auto">
           {children}
           </div>
         </Providers>
