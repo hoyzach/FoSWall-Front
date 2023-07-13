@@ -1,9 +1,11 @@
 'use client'
 import { useEffect, useState } from 'react';
+import { ethers } from 'ethers';
 import { tokenData } from './tokenData';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
-import useAddLike from '../../utils/functions';
+import useAddLike from '../../utils/addLike';
+import useAddDislike from '../../utils/addDislike';
 
 export default function Wall() {
   const [data, setData] = useState([]);
@@ -25,7 +27,8 @@ export default function Wall() {
     setReload(prevState => !prevState);
   };
 
-  const { addLike, likeFee, isLikeLoading, txSuccess, txError } = useAddLike();
+  const { addLike, likeFee, isLikeLoading, likeTxSuccess, likeTxError } = useAddLike();
+  const { addDislike, dislikeFee, isDislikeLoading, dislikeTxSuccess, dislikeTxError } = useAddDislike();
 
   const handleLike = (tokenId) => {
     console.log(`Liked item ${tokenId}!`);
@@ -34,14 +37,19 @@ export default function Wall() {
 
   const handleDislike = (tokenId) => {
     console.log(`Disliked item ${tokenId}!`);
-    // Perform your specific action here...
+    addDislike(tokenId)
   };
 
   return (
+    <>
+    <div>
+      <p>Like Fee: <strong>{ethers.formatEther(likeFee)}</strong> Matic</p>
+      <p>Dislike Fee: <strong>{ethers.formatEther(dislikeFee)}</strong> Matic</p>
+    </div>
     <div className="flex flex-wrap justify-center item-center px-4 lg:px-16">
       {data.map((token) => (
         <div key={token.tokenId} className="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
-          <img src={token.imageData} alt={`Token ${token.tokenId} Image`} className="w-full h-auto rounded-corners"/>
+          <img src={token.imageData} alt={`Token ${token.tokenId} Image`} className="w-full h-auto rounded-corners shadow-xl"/>
           <div className="flex justify-around pt-4 pb-4">
             <button className="border border-gray-300 bg-white text-black px-2 py-1 rounded" onClick={() => handleLike(token.tokenId)}>
               <FontAwesomeIcon icon={faThumbsUp} />
@@ -53,6 +61,7 @@ export default function Wall() {
         </div>
       ))}
     </div>
+    </>
   );
   
   

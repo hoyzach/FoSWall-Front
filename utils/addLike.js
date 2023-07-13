@@ -66,7 +66,7 @@ export default function useAddLike() {
   }, [addLikeData, isAddLikeLoading, isAddLikeStarted]);
 
   //check TX for like function
-  const { isSuccess: txSuccess, error: txError } = useWaitForTransaction({
+  const { isSuccess: likeTxSuccess, error: likeTxError } = useWaitForTransaction({
     confirmations: 1,
     hash: addLikeData?.hash,
   });
@@ -82,7 +82,7 @@ export default function useAddLike() {
     addLike,
     likeFee,
     isAddLikeLoading,
-    txSuccess,
-    txError
+    likeTxSuccess,
+    likeTxError
   };
 }

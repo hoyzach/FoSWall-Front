@@ -2,14 +2,17 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons'
+import useMint from '../../utils/mint';
 
 export const metadata = {
     title: 'Create'
 }
 
-export default function Create(props) {
+export default function Create() {
     const [expression, setExpression] = useState('');
     const [error, setError] = useState('');
+
+    const { mint, mintFee, isMintLoading, mintTxSuccess, mintTxError } = useMint();
 
     const handleChange = (event) => {
         event.preventDefault();
@@ -29,7 +32,7 @@ export default function Create(props) {
                 onSubmit={(e) => {
                     e.preventDefault();
                     if (!error) {
-                        props.handleMint(expression);
+                        mint(expression);
                     }
                 }}
             >
@@ -56,11 +59,12 @@ export default function Create(props) {
             <div className="w-1/2 text-black text-center bg-gray-900 px-5 py-5 m-2 rounded">
                 <div className="flex flex-col justify-around h-full items-center">
                     <div className="tracking-wide text-sm text-white font-bold">Preview</div>
-                    <div className="tracking-wide text-sm text-primary">{expression}</div>
+                    <div className="tracking-wide text-xs text-primary">{expression}</div>
                     <div className="tracking-wide text-sm text-white">Likes: 0</div>
                     <div className="tracking-wide text-sm text-white">Dislikes: 0</div>
                 </div>
             </div>
+            
         </>
     );
 }

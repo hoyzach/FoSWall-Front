@@ -1,8 +1,10 @@
 import './globals.css';
-import '@rainbow-me/rainbowkit/styles.css';
+
 import { Montserrat } from "@next/font/google"
 import { Providers } from './providers';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+
+import Footer from './footer';
+import Header from './header';
 
 const montserrat = Montserrat({
   weight: ["400", "700"],
@@ -21,24 +23,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={montserrat.className}>
+      <body className={`flex flex-col min-h-screen ${montserrat.className}`}>
         <Providers>
-          <nav className='grid md:grid-cols-3 grid-cols-1 items-center p-2 text-primary bg-black'>
-              <div className='flex justify-center md:justify-start py-1'> 
-                  <span className="font-bold text-xl">FoSWall</span>
-              </div>
-              <div className="flex justify-center text-sm text-primary underline">
-                  <a href="/" className="mx-2 sm:mt-0 hover:text-white">Home</a>
-                  <a href="wall" className="mx-2 sm:mt-0 hover:text-white">Wall</a>
-                  <a href="create" className="mx-2 sm:mt-0 hover:text-white">Create</a>
-              </div>
-              <div className="flex justify-center md:justify-end py-1">
-                  <ConnectButton />
-              </div>
-          </nav>
-          <div className="bg-gradient-to-b from-black to-primary w-full min-h-screen flex flex-col items-center justify-center overflow-auto">
-          {children}
-          </div>
+          <Header />
+          <main className="flex-grow overflow-auto" style={{ paddingTop: '64px' }}>
+            <div className="bg-primary bg-[url('/pattern3.png')] bg-cover bg-fixed w-full min-h-screen flex flex-col items-center justify-center">
+              {children}
+            </div>
+          </main>
+          <Footer />
         </Providers>
       </body>
     </html>

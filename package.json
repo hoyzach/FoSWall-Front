@@ -16,6 +16,7 @@
     "@rainbow-me/rainbowkit": "^1.0.1",
     "autoprefixer": "10.4.14",
     "encoding": "^0.1.13",
+    "ethers": "^6.6.3",
     "lokijs": "^1.5.12",
     "next": "13.4.4",
     "pino-pretty": "^10.0.1",
