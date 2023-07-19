@@ -5,6 +5,7 @@ import { Providers } from './providers';
 
 import Footer from './footer';
 import Header from './header';
+import Subheader from './subheader';
 
 const montserrat = Montserrat({
   weight: ["400", "700"],
@@ -26,7 +27,8 @@ export default function RootLayout({ children }) {
       <body className={`flex flex-col min-h-screen ${montserrat.className}`}>
         <Providers>
           <Header />
-          <main className="flex-grow overflow-auto" style={{ paddingTop: '64px' }}>
+          <Subheader/>
+          <main className="flex-1">
             <div className="bg-primary bg-[url('/pattern3.png')] bg-cover bg-fixed w-full min-h-screen flex flex-col items-center justify-center">
               {children}
             </div>

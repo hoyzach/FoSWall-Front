@@ -9,7 +9,7 @@ export const metadata = {
 }
 
 export default function Create() {
-    const [expression, setExpression] = useState('');
+    const [expression, setExpression] = useState(' ');
     const [error, setError] = useState('');
 
     const { mint, mintFee, isMintLoading, mintTxSuccess, mintTxError } = useMint();
@@ -56,11 +56,12 @@ export default function Create() {
             </form>
 
             {/* Preview Card */}
-            <div className="w-1/2 text-black text-center bg-gray-900 px-5 py-5 m-2 rounded">
-                <div className="flex flex-col justify-around h-full items-center">
-                    <div className="tracking-wide text-sm text-white font-bold">Preview</div>
-                    <div className="tracking-wide text-xs text-primary">{expression}</div>
+            <div className="text-black text-center bg-black m-2 rounded">
+                <div className="flex flex-col justify-around h-full items-center p-16">
+                    <div className="tracking-wide text-sm text-white font-bold">FoS #Preview</div>
+                    <div className="tracking-wide text-xs text-primary py-10">{expression}</div>
                     <div className="tracking-wide text-sm text-white">Likes: 0</div>
+                    <br/>
                     <div className="tracking-wide text-sm text-white">Dislikes: 0</div>
                 </div>
             </div>

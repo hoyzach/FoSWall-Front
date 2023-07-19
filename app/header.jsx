@@ -4,12 +4,13 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import '@rainbow-me/rainbowkit/styles.css';
 
 const Header = () => {
-
     return (
-        <header className='bg-black fixed w-full top-0 text-primary '>
+        <header className='bg-black sticky w-full top-0 text-primary '>
             <div className='items-center grid md:grid-cols-3 grid-cols-1 p-2'>
                 <div className='flex justify-center md:justify-start py-1'> 
-                    <span className="font-bold text-xl">FoSWall</span>
+                    <span className="font-bold text-xl">F</span>
+                    <img src='/fos.jpg' alt="icon" className="h-4 w-4 inline-block rounded-full transform translate-y-1.5" />
+                    <span className="font-bold text-xl">SWall</span>
                 </div>
                 <div className="flex justify-center text-sm text-primary underline">
                     <a href="/" className="mx-2 sm:mt-0 hover:text-white">Home</a>
@@ -20,7 +21,6 @@ const Header = () => {
                     <ConnectButton />
                 </div>
             </div>
-            <hr className="border-0 h-1 bg-white" />
         </header>
     );
 };

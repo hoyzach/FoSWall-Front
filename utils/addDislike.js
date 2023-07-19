@@ -9,7 +9,8 @@ import {
   import { useState, useEffect } from "react";
   import contractABI from "../contracts/FreedomOfSpeech.json";
   
-  const NEXT_PUBLIC_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
+  const NEXT_PUBLIC_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
+  const NEXT_PUBLIC_TEST_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_TEST_CONTRACT_ADDRESS;
   
   export default function useAddDislike() {
     const [dislikeFee, setDislikeFee] = useState(0);
@@ -17,10 +18,21 @@ import {
     const { address } = useAccount();
     const { chains } = useNetwork();
     const { data: WalletClient } = useWalletClient();
+
+    let network = "matic";
+    let prefix = "";
+    let contract = NEXT_PUBLIC_CONTRACT_ADDRESS;
+    if(WalletClient){
+        if (WalletClient.chain.id === 80001) {
+            network = 'mumbai';
+            prefix = "testnets.";
+            contract = NEXT_PUBLIC_TEST_CONTRACT_ADDRESS;
+        }
+    }
   
     //dislikeFee function call structure
     const { data: dislikeFeeData } = useContractRead({
-      address: NEXT_PUBLIC_CONTRACT_ADDRESS,
+      address: contract,
       abi: contractABI,
       functionName: "dislikeFee",
       watch: true,
@@ -41,7 +53,7 @@ import {
       isSuccess: isAddDislikeStarted,
       error: addDislikeError,
     } = useContractWrite({
-      address: NEXT_PUBLIC_CONTRACT_ADDRESS,
+      address: contract,
       abi: contractABI,
       functionName: "addDislike",
     });
