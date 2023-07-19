@@ -28,8 +28,8 @@ export default function RootLayout({ children }) {
         <Providers>
           <Header />
           <Subheader/>
-          <main className="flex-1">
-            <div className="bg-primary bg-[url('/pattern3.png')] bg-cover bg-fixed w-full min-h-screen flex flex-col items-center justify-center">
+          <main>
+            <div className="bg-primary bg-[url('/pattern3.png')] bg-cover bg-fixed w-full min-h-screen flex flex-1 flex-col items-center justify-center">
               {children}
             </div>
           </main>

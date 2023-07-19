@@ -25,7 +25,3 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
-
-.rounded-corners {
-  border-radius: 20px;
-}

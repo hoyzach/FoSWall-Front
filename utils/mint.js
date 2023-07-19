@@ -9,7 +9,7 @@ import {
   import { useState, useEffect } from "react";
   import contractABI from "../contracts/FreedomOfSpeech.json";
   
-  const NEXT_PUBLIC_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
+  const NEXT_PUBLIC_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_TEST_CONTRACT_ADDRESS
   
   export default function useMint() {
     const [mintFee, setMintFee] = useState(0);

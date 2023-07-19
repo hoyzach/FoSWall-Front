@@ -15,13 +15,14 @@ import {
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { polygon, polygonMumbai } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
+import { alchemyProvider } from 'wagmi/providers/alchemy'
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
     polygon,
     polygonMumbai,
   ],
-  [publicProvider()]
+  [alchemyProvider({apiKey: 'rd2bVW5q6KmYyjP7uic2SgINXEBb2fKx'}), publicProvider()]
 );
 
 const projectId = 'bcdee4db8a6a9d881ea7c895f57b2413';
