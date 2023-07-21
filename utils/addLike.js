@@ -3,24 +3,23 @@ import {
   useContractRead,
   useContractWrite,
   useNetwork,
-  useWalletClient,
   useWaitForTransaction,
 } from "wagmi";
 import { useState, useEffect } from "react";
 import contractABI from "../contracts/FreedomOfSpeech.json";
-
-const NEXT_PUBLIC_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_TEST_CONTRACT_ADDRESS
+import useChainCheck from "./chainCheck";
 
 export default function useAddLike() {
   const [likeFee, setLikeFee] = useState(0);
 
   const { address } = useAccount();
   const { chains } = useNetwork();
-  const { data: WalletClient } = useWalletClient();
+  
+  const { network, contract, prefix, WalletClient } = useChainCheck();
 
   //likeFee function call structure
   const { data: likeFeeData } = useContractRead({
-    address: NEXT_PUBLIC_CONTRACT_ADDRESS,
+    address: contract,
     abi: contractABI,
     functionName: "likeFee",
     watch: true,
@@ -41,7 +40,7 @@ export default function useAddLike() {
     isSuccess: isAddLikeStarted,
     error: addLikeError,
   } = useContractWrite({
-    address: NEXT_PUBLIC_CONTRACT_ADDRESS,
+    address: contract,
     abi: contractABI,
     functionName: "addLike",
   });

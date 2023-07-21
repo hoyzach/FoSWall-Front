@@ -9,9 +9,6 @@ import {
   import contractABI from "../contracts/FreedomOfSpeech.json";
   import useChainCheck from "./chainCheck";
   
-  const NEXT_PUBLIC_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
-  const NEXT_PUBLIC_TEST_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_TEST_CONTRACT_ADDRESS;
-  
   export default function useAddDislike() {
     const [dislikeFee, setDislikeFee] = useState(0);
   
@@ -19,8 +16,6 @@ import {
     const { chains } = useNetwork();
 
     const { network, contract, prefix, WalletClient } = useChainCheck();
-    //console.log('contract: ', contract)
-    //console.log('client: ', WalletClient)
   
     //dislikeFee function call structure
     const { data: dislikeFeeData } = useContractRead({

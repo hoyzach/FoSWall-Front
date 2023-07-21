@@ -3,24 +3,23 @@ import {
     useContractRead,
     useContractWrite,
     useNetwork,
-    useWalletClient,
     useWaitForTransaction,
   } from "wagmi";
   import { useState, useEffect } from "react";
   import contractABI from "../contracts/FreedomOfSpeech.json";
-  
-  const NEXT_PUBLIC_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_TEST_CONTRACT_ADDRESS
+  import useChainCheck from "./chainCheck";
   
   export default function useMint() {
     const [mintFee, setMintFee] = useState(0);
   
     const { address } = useAccount();
     const { chains } = useNetwork();
-    const { data: WalletClient } = useWalletClient();
+
+    const { network, contract, prefix, WalletClient } = useChainCheck();
   
     //mintFee function call structure
     const { data: mintFeeData } = useContractRead({
-      address: NEXT_PUBLIC_CONTRACT_ADDRESS,
+      address: contract,
       abi: contractABI,
       functionName: "creationFee",
       watch: true,
@@ -41,7 +40,7 @@ import {
       isSuccess: isMintStarted,
       error: mintError,
     } = useContractWrite({
-      address: NEXT_PUBLIC_CONTRACT_ADDRESS,
+      address: contract,
       abi: contractABI,
       functionName: "mint",
     });
