@@ -1,10 +1,10 @@
 'use client'
 import React from 'react';
-import useChainCheck from '../utils/chainCheck';
+import useClientCheck from '../utils/clientCheck';
 
 const Footer = () => {
     
-    let { network, contract } = useChainCheck();
+    let { network: network, contract: contract } = useClientCheck();
     if(network === 'mumbai'){
         network = 'mumbai.'
     } else {network = ""}

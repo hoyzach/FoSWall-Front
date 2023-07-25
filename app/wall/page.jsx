@@ -4,13 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { tokenData } from './tokenData';
 import useContractAction from '../../utils/contractAction';
-import useChainCheck from '../../utils/chainCheck';
+import useClientCheck from '../../utils/clientCheck';
 
 export default function Wall() {
   const [data, setData] = useState([]);
   const [reload, setReload] = useState(false);
 
-  const { network, contract, prefix } = useChainCheck();
+  const { network: network, contract: contract, prefix: prefix } = useClientCheck();
 
   useEffect(() => {
     async function fetchData() {

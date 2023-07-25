@@ -1,10 +1,9 @@
-'use client'
 import { useWalletClient } from "wagmi";
 
 const NEXT_PUBLIC_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 const NEXT_PUBLIC_TEST_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_TEST_CONTRACT_ADDRESS;
 
-const useChainCheck = () => {
+const useClientCheck = () => {
   const { data: WalletClient } = useWalletClient();
 
   let network = "matic";
@@ -22,4 +21,4 @@ const useChainCheck = () => {
   return { network, contract, prefix, WalletClient };
 };
 
-export default useChainCheck;
+export default useClientCheck;

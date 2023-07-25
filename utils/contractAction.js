@@ -1,21 +1,16 @@
 import {
-    useAccount,
     useContractRead,
     useContractWrite,
-    useNetwork,
     useWaitForTransaction,
   } from "wagmi";
   import { useState, useEffect } from "react";
   import contractABI from "../contracts/FreedomOfSpeech.json";
-  import useChainCheck from "./chainCheck";
+  import useClientCheck from "./clientCheck";
   
   function useContractAction({ readFunctionName, writeFunctionName }) {
     const [readData, setReadData] = useState(0);
   
-    const { address } = useAccount();
-    const { chains } = useNetwork();
-  
-    const { contract: contract, WalletClient: signer } = useChainCheck();
+    const { contract: contract, WalletClient: signer } = useClientCheck();
   
     // Read function call structure
     const { data: data } = useContractRead({
@@ -58,6 +53,7 @@ import {
   
       // Action logging
       useEffect(() => {
+        console.log("___________");
         console.log(`actionData:`, actionData);
         console.log(`is${writeFunctionName}Loading:`, isActionLoading);
         console.log(`is${writeFunctionName}Started:`, isActionStarted);
@@ -71,13 +67,6 @@ import {
         hash: actionData?.hash,
       }));
     }
-  
-    // User context logging
-    useEffect(() => {
-      console.log("address:", address);
-      console.log("network", chains);
-      console.log("___________");
-    }, [address, chains]);
   
     return {
       executeAction: executeAction,
