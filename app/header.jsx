@@ -16,6 +16,7 @@ const Header = () => {
                     <a href="/" className="mx-2 sm:mt-0 hover:text-white">Home</a>
                     <a href="wall" className="mx-2 sm:mt-0 hover:text-white">Wall</a>
                     <a href="create" className="mx-2 sm:mt-0 hover:text-white">Create</a>
+                    <a href="owned" className="mx-2 sm:mt-0 hover:text-white">Owned</a>
                 </div>
                 <div className="flex justify-center md:justify-end py-1">
                     <ConnectButton />

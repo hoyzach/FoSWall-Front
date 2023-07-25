@@ -4,7 +4,7 @@ import useChainCheck from '../utils/chainCheck';
 
 const Footer = () => {
     
-    let { network, contract, prefix } = useChainCheck();
+    let { network, contract } = useChainCheck();
     if(network === 'mumbai'){
         network = 'mumbai.'
     } else {network = ""}

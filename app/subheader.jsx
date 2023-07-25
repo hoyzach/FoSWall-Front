@@ -1,15 +1,14 @@
 'use client'
 import React from 'react';
 import { ethers } from 'ethers';
-import useAddLike from '../utils/addLike';
-import useAddDislike from '../utils/addDislike';
-import useMint from '../utils/mint';
+import useContractAction from '../utils/contractAction';
 
 const Subheader = () => {
 
-    const { addLike, likeFee, isLikeLoading, likeTxSuccess, likeTxError } = useAddLike();
-    const { addDislike, dislikeFee, isDislikeLoading, dislikeTxSuccess, dislikeTxError } = useAddDislike();
-    const { mint, mintFee, isMintLoading, mintTxSuccess, mintTxError } = useMint();
+    const { readData: likeFee } = useContractAction({ readFunctionName: 'likeFee' });
+    const { readData: dislikeFee } = useContractAction({ readFunctionName: 'dislikeFee' });
+    const { readData: mintFee } = useContractAction({ readFunctionName: 'creationFee' });
+    const { readData: dislikeThreshold } = useContractAction({ readFunctionName: 'dislikeThreshold' });
 
     return (
         <header className='bg-gray-800 sticky w-full top-16 text-primary '>
@@ -21,7 +20,7 @@ const Subheader = () => {
                 </div>
                 <div className="flex flex-col justify-center items-center text-sm">
                     <p>Creation Fee: <strong>{ethers.formatEther(mintFee)}</strong> Matic</p>
-                    <p>Dislike Threshold: <strong>{dislikeFee}</strong></p>
+                    <p>Dislike Threshold: <strong>{parseInt(dislikeThreshold)}</strong></p>
                 </div>
             </div>
         </header>

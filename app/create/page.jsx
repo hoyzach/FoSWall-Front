@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import useMint from '../../utils/mint';
+import useContractAction from '../../utils/contractAction';
 
 export const metadata = {
     title: 'Create'
@@ -10,7 +10,7 @@ export default function Create() {
     const [expression, setExpression] = useState(' ');
     const [error, setError] = useState('');
 
-    const { mint, mintFee, isMintLoading, mintTxSuccess, mintTxError } = useMint();
+    const { executeAction: mint } = useContractAction({ readFunctionName: 'creationFee', writeFunctionName: 'mint' });
 
     const handleChange = (event) => {
         event.preventDefault();
