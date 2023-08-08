@@ -23,11 +23,13 @@ const ScrollToTopButton = () => {
   }, [isVisible]);
 
   return isVisible ? (
-    <button 
-      className="border border-gray-300 rounded fixed bottom-10 right-4 bg-white text-black hover:bg-black hover:text-primary text-lg px-2.5 py-1" 
-      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-        <FontAwesomeIcon icon={faCircleUp} />
-    </button>
+    <div className='fixed bottom-10 right-4'>
+      <button 
+        className="border border-gray-300 rounded bg-white text-black hover:bg-black hover:text-primary text-lg px-2.5 py-1" 
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <FontAwesomeIcon icon={faCircleUp} />
+      </button>
+    </div>
   ) : null;
 }
 

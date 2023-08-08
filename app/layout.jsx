@@ -1,10 +1,10 @@
 import './globals.css';
-import { Montserrat } from "@next/font/google"
+import { Montserrat } from "next/font/google"
 import { Providers } from './providers';
 import Footer from './footer';
 import Header from './header';
 import Subheader from './subheader';
-import ScrollToTopButton from '../utils/scrollToTopButton';
+import ScrollToTopButton from './scrollToTopButton.jsx';
 
 const montserrat = Montserrat({
   weight: ["400", "700"],
@@ -19,21 +19,23 @@ export const metadata = {
   },
   description: "Create and rate on-chain NFTs",
 }
-
+// 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`flex flex-col min-h-screen ${montserrat.className}`}>
+      <body className={`${montserrat.className}`}>
         <Providers>
-          <Header />
-          <Subheader/>
-          <main>
-            <div className="bg-primary bg-[url('/pattern3.png')] bg-cover bg-fixed w-full min-h-screen flex flex-1 flex-col items-center justify-center py-10">
-              {children}
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <Subheader/>
+            <main className='flex flex-grow'>
+              <div className="bg-primary bg-[url('/pattern3.png')] bg-cover bg-fixed w-full flex flex-col items-center justify-center py-10">
+                {children}
+              </div>
               <ScrollToTopButton />
-            </div>
-          </main>
-          <Footer />
+            </main>
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>
