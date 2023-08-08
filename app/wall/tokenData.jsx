@@ -1,5 +1,5 @@
 export async function tokenData() {
-  const response = await fetch('https://api.studio.thegraph.com/query/47271/foswall/version/latest', {
+  const response = await fetch('https://api.studio.thegraph.com/query/47271/foswalltest/version/latest', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -9,8 +9,8 @@ export async function tokenData() {
       query: `
         {
           tokens {
-            id
-            contentURI
+            tokenId
+            tokenURI
           }
         }
       `,
@@ -22,11 +22,12 @@ export async function tokenData() {
   }
 
   const data = await response.json();
+  console.log(data);
   const tokens = data.data.tokens;
   const cardData = tokens.map(token => {
-    let tokenData = JSON.parse(atob(token.contentURI.split(",")[1]));
+    let tokenData = JSON.parse(atob(token.tokenURI.split(",")[1]));
     return {
-      tokenId: token.id, 
+      tokenId: token.tokenId, 
       imageData: tokenData.image_data
     };
   });

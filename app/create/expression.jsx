@@ -8,8 +8,8 @@ export function Expression(props) {
     const handleChange = (event) => {
         event.preventDefault();
         const value = event.target.value;
-        if (new Blob([value]).size > 64) {
-            setError('Expression must be less than 64 bytes');
+        if (new Blob([value]).size > 48) {
+            setError('Expression must be less than 48 bytes');
         } else {
             setError('');
             setExpression(value);

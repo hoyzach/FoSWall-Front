@@ -7,7 +7,7 @@ export const metadata = {
 }
 
 export default function Create() {
-    const [expression, setExpression] = useState(' ');
+    const [expression, setExpression] = useState('');
     const [error, setError] = useState('');
 
     const { executeAction: mint } = useContractAction({ readFunctionName: 'creationFee', writeFunctionName: 'mint' });
@@ -15,8 +15,8 @@ export default function Create() {
     const handleChange = (event) => {
         event.preventDefault();
         const value = event.target.value;
-        if (new Blob([value]).size > 64) {
-            setError('Expression must be less than 64 bytes');
+        if (new Blob([value]).size > 48) {
+            setError('Expression must be less than 48 bytes');
         } else {
             setError('');
             setExpression(value);

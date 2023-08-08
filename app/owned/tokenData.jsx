@@ -1,6 +1,6 @@
 export async function tokenData(signer) {
   console.log("signer: ", signer)
-  const response = await fetch('https://api.studio.thegraph.com/query/47271/foswall/version/latest', {
+  const response = await fetch('https://api.studio.thegraph.com/query/47271/foswalltest/version/latest', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -13,7 +13,7 @@ export async function tokenData(signer) {
             where: {owner_contains_nocase: "${signer}"}
           ) {
             id
-            contentURI
+            tokenURI
           }
         }
       `,
@@ -28,7 +28,7 @@ export async function tokenData(signer) {
   console.log("DATA: ", data.data)
   const tokens = data.data.tokens;
   const cardData = tokens.map(token => {
-    let tokenData = JSON.parse(atob(token.contentURI.split(",")[1]));
+    let tokenData = JSON.parse(atob(token.tokenURI.split(",")[1]));
     return {
       tokenId: token.id, 
       imageData: tokenData.image_data

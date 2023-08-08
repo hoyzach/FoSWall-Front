@@ -16,7 +16,7 @@ export default function Owned() {
   const [feesToBeClaimed, setFeesToBeClaimed] = useState(null);
 
   const { contract: contract, WalletClient: WalletClient } = useClientCheck();
-  const { executeAction: claimToken, actionTxSuccess } = contractWrite({ writeFunctionName: 'claimToken' });
+  const { executeAction: claimToken, actionTxSuccess: claimTXSuccess } = contractWrite({ writeFunctionName: 'claimToken' });
 
   const fees = useContractReadLoop(contract, "getfeesAccrued", data);
   console.log('fees: ', fees)
@@ -33,10 +33,16 @@ export default function Owned() {
   }, [reload, WalletClient]);
 
   useEffect(() => {
-    if(actionTxSuccess) {
-      Reload();
+    let timer;
+    if(claimTXSuccess) {
+      console.log("reload")
+      timer = setTimeout(() => {
+        Reload();
+      }, 15000); // wait for 15,000 milliseconds = 15 seconds
     }
-  }, [actionTxSuccess]);
+    // clear the timer when the component unmounts
+    return () => clearTimeout(timer);
+  }, [claimTXSuccess]);
 
   const Reload = () => {
     setReload(prevState => !prevState);
@@ -45,6 +51,7 @@ export default function Owned() {
   const handleClaim = (tokenId) => {
     console.log(`Claim item ${tokenId}!`);
     claimToken(tokenId);
+    handleCloseModal();
   };
 
   const handleOpenModal = (tokenId, fees) => {
