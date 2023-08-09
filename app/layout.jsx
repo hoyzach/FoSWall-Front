@@ -5,6 +5,7 @@ import Footer from './footer';
 import Header from './header';
 import Subheader from './subheader';
 import ScrollToTopButton from './scrollToTopButton.jsx';
+import { Toaster } from 'react-hot-toast';
 
 const montserrat = Montserrat({
   weight: ["400", "700"],
@@ -25,6 +26,21 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${montserrat.className}`}>
         <Providers>
+          <div>
+            <Toaster
+              toastOptions={{
+                className: '',
+                style: {
+                  border: '4px solid #ffffff',
+                  padding: '25px',
+                  color: '#00CED1',
+                  background: '#1F2937',
+                },
+              }} containerStyle={{
+                top: 130,
+              }}
+            />
+          </div>
           <div className="flex flex-col min-h-screen">
             <Header />
             <Subheader/>

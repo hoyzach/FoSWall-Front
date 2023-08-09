@@ -8,7 +8,7 @@ export async function tokenData() {
       operationName: null,
       query: `
         {
-          tokens {
+          tokens(orderBy: tokenId) {
             tokenId
             tokenURI
           }

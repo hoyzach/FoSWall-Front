@@ -6,6 +6,7 @@ import {
   import { useState, useEffect } from "react";
   import contractABI from "../contracts/FreedomOfSpeech.json";
   import useClientCheck from "./clientCheck";
+  import toast from 'react-hot-toast';
   
   function useContractAction({ readFunctionName, writeFunctionName }) {
     const [readData, setReadData] = useState(0);
@@ -43,13 +44,16 @@ import {
       }));
   
       // Write function call
-      executeAction = async (args) => {  // define here
+      executeAction = async (args) => {
+        // Show loading toast without awaiting success or error
+        toast.loading('Transaction is pending...');
         contractAction({
           args: [args],
           value: readData,
           signer: signer
         });
-      }
+      };
+
   
       // Action logging
       useEffect(() => {
@@ -63,17 +67,33 @@ import {
   
       // Check TX for action function
       ({ isSuccess: actionTxSuccess, error: actionTxError } = useWaitForTransaction({
-        confirmations: 1,
+        confirmations: 3,
         hash: actionData?.hash,
       }));
     }
+    useEffect(() => {
+      if (actionError) {
+        toast.dismiss();
+        if (actionError.cause.details){
+          toast.error(actionError.cause.details)
+        } else { toast.error(actionError.cause.reason) }
+      }
+    }, [actionError]);
+
+    useEffect(() => {
+      if (actionTxSuccess) {
+        toast.dismiss();
+        // Show a success toast when the transaction is successful
+        toast.success(`${writeFunctionName} successful!`);
+      }
+    }, [actionTxSuccess]);
+    
   
     return {
       executeAction: executeAction,
       readData,
       isActionLoading: writeFunctionName ? isActionLoading : undefined,
       actionTxSuccess: writeFunctionName ? actionTxSuccess : undefined,
-      actionTxError: writeFunctionName ? actionTxError : undefined
     };
   }
   

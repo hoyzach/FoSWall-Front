@@ -10,7 +10,8 @@ export async function tokenData(signer) {
       query: `
         {
           tokens(
-            where: {owner_contains_nocase: "${signer}"}
+            where: {owner_contains_nocase: "${signer}"},
+            orderBy: tokenId
           ) {
             id
             tokenURI

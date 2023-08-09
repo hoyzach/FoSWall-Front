@@ -65,7 +65,6 @@ export default function Wall() {
   const handleSubmit = async(e) => {
     e.preventDefault();
     setSubmitClicked(true);
-    console.log(feesAccrued)
   
     try {
       const readData = await readContract({
