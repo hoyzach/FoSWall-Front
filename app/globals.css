@@ -25,3 +25,8 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+button:disabled:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}

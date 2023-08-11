@@ -10,7 +10,7 @@ const Subheader = () => {
     const dislikeThreshold = useContractReadSingle({ readFunctionName: 'dislikeThreshold' });
 
     return (
-        <header className='bg-gray-800 sticky w-full top-16 text-primary '>
+        <header className='bg-gray-800 sticky w-full top-16 text-primary z-50'>
             <hr className="border-0 h-1 bg-white" />
             <div className='items-center grid grid-cols-2 p-2'>
                 <div className='flex flex-col justify-center items-center text-sm'>

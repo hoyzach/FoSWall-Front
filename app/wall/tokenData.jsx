@@ -1,5 +1,5 @@
 export async function tokenData() {
-  const response = await fetch('https://api.studio.thegraph.com/query/47271/foswalltest/version/latest', {
+  const response = await fetch('https://api.studio.thegraph.com/query/47271/foswalltest/v0.0.8', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -11,6 +11,7 @@ export async function tokenData() {
           tokens(orderBy: tokenId) {
             tokenId
             tokenURI
+            expression
           }
         }
       `,
@@ -22,15 +23,17 @@ export async function tokenData() {
   }
 
   const data = await response.json();
-  console.log(data);
   const tokens = data.data.tokens;
   const cardData = tokens.map(token => {
-    let tokenData = JSON.parse(atob(token.tokenURI.split(",")[1]));
-    return {
-      tokenId: token.tokenId, 
-      imageData: tokenData.image_data
-    };
-  });
+    if (token.expression !== 'NULLIFIED' && token.expression !== 'CLAIMED') {
+      let tokenData = JSON.parse(atob(token.tokenURI.split(",")[1]));
+      return {
+        tokenId: token.tokenId, 
+        imageData: tokenData.image_data
+      };
+    }
+  }).filter(Boolean); // Filter out any undefined values
+  console.log(cardData)
 
   return cardData;
 }

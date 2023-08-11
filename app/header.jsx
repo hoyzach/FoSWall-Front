@@ -5,7 +5,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 
 const Header = () => {
     return (
-        <header className='bg-black sticky w-full top-0 text-primary '>
+        <header className='bg-black sticky w-full top-0 text-primary z-40'>
             <div className='items-center grid md:grid-cols-3 grid-cols-1 p-2'>
                 <div className='flex justify-center md:justify-start py-1'> 
                     <span className="font-bold text-xl">F</span>
