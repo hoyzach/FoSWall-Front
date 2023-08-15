@@ -1,17 +1,18 @@
 import './globals.css';
-import { Montserrat } from "next/font/google"
+// import { Montserrat } from "next/font/google"
 import { Providers } from './providers';
 import Footer from './footer';
 import Header from './header';
 import Subheader from './subheader';
 import ScrollToTopButton from './scrollToTopButton.jsx';
 import { Toaster } from 'react-hot-toast';
-
-const montserrat = Montserrat({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  variable: "--font-montserrat",
-})
+import { IBM_Plex_Serif } from 'next/font/google'
+// const montserrat = Montserrat({
+//   weight: ["400", "700"],
+//   subsets: ["latin"],
+//   variable: "--font-montserrat",
+// })
+const serif = IBM_Plex_Serif({ weight: ["400", "700"], subsets: ['latin'] })
 
 export const metadata = {
   title: {
@@ -24,7 +25,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${montserrat.className}`}>
+      <body className={`${serif.className}`}>
         <Providers>
           <div>
             <Toaster

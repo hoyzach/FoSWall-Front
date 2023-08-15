@@ -9,7 +9,7 @@ const Header = () => {
             <div className='items-center grid md:grid-cols-3 grid-cols-1 p-2'>
                 <div className='flex justify-center md:justify-start py-1'> 
                     <span className="font-bold text-xl">F</span>
-                    <img src='/fos.jpg' alt="icon" className="h-4 w-4 inline-block rounded-full transform translate-y-1.5" />
+                    <img src='/fos.jpg' alt="icon" className="h-3 w-3 inline-block rounded-full transform translate-y-2.5" />
                     <span className="font-bold text-xl">SWall</span>
                 </div>
                 <div className="flex justify-center text-sm text-primary underline">

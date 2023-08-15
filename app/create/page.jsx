@@ -54,13 +54,12 @@ export default function Create() {
             </form>
 
             {/* Preview Card */}
-            <div className="text-black text-center bg-black m-2 rounded-3xl max-w-full">
-                <div className="flex flex-col justify-around h-full items-center p-16">
-                    <div className="tracking-wide text-sm text-white font-bold py-4">FoS #Preview</div>
-                    <div className="tracking-wide text-[8px] text-primary py-12">{expression}</div>
-                    <div className="tracking-wide text-sm text-white">Likes: 0</div>
-                    <br/>
-                    <div className="tracking-wide text-sm text-white mb-4">Dislikes: 0</div>
+            <div className="text-white text-center bg-black m-2 rounded-3xl p-2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] overflow-hidden">
+                <div className="relative flex flex-col text-xs h-full items-center">
+                    <div className="absolute top-[22%] sm:text-base font-bold">FoS #16</div>
+                    <div className="absolute top-[47%] sm:text-sm text-primary whitespace-nowrap overflow-hidden">{expression}</div>
+                    <div className="absolute top-[70%] sm:text-base">Likes: 0</div>
+                    <div className="absolute top-[80%] sm:text-base">Dislikes: 0</div>
                 </div>
             </div>
             

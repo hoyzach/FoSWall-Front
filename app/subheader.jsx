@@ -14,12 +14,12 @@ const Subheader = () => {
             <hr className="border-0 h-1 bg-white" />
             <div className='items-center grid grid-cols-2 p-2'>
                 <div className='flex flex-col justify-center items-center text-sm'>
-                    <p>Like Fee: <strong>{likeFee ? ethers.formatEther(likeFee) : 'Loading...'}</strong> {likeFee && 'Matic'}</p>
-                    <p>Dislike Fee: <strong>{dislikeFee ? ethers.formatEther(dislikeFee) : 'Loading...'}</strong> {dislikeFee && 'Matic'}</p>
+                    <p>Like Fee | <strong>{likeFee ? ethers.formatEther(likeFee) : 'Loading...'}</strong> {likeFee && 'Matic'}</p>
+                    <p>Dislike Fee | <strong>{dislikeFee ? ethers.formatEther(dislikeFee) : 'Loading...'}</strong> {dislikeFee && 'Matic'}</p>
                 </div>
                 <div className="flex flex-col justify-center items-center text-sm">
-                    <p>Creation Fee: <strong>{mintFee ? ethers.formatEther(mintFee) : 'Loading...'}</strong> {mintFee && 'Matic'}</p>
-                    <p>Dislike Threshold: <strong>{dislikeThreshold ? parseInt(dislikeThreshold) : 'Loading...'}</strong></p>
+                    <p>Creation Fee | <strong>{mintFee ? ethers.formatEther(mintFee) : 'Loading...'}</strong> {mintFee && 'Matic'}</p>
+                    <p>Dislike Threshold | <strong>{dislikeThreshold ? parseInt(dislikeThreshold) : 'Loading...'}</strong></p>
                 </div>
             </div>
         </header>

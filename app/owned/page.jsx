@@ -90,14 +90,14 @@ export default function Owned() {
         <div className='border border-4 bg-gray-700 p-4'>You don't own any tokens. Please visit the create page to start minting!</div>
       )}
       {/* <button className='fixed bottom-10 left-4 border border-gray-300 bg-white text-black hover:bg-black hover:text-primary text-sm px-2.5 py-1 rounded' onClick={handleRefreshFees}>Refresh fees</button> */}
-      <div className="flex flex-wrap justify-center item-center px-4 lg:px-16">
+      <div className="flex flex-wrap justify-center items-center px-4 lg:px-16">
         {data.map((token, index) => (
-          <div key={`${token.tokenId}`} className="p-2 sm:w-1/2 md:w-1/3 lg:w-1/4 sm:min-w-[500px] ">
+          <div key={token.tokenId} className="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 sm:min-w-[500px]">
             <img src={token.imageData} alt={`Token ${token.tokenId} Image`} className="w-full h-auto rounded-3xl shadow-xl"/>
             <div className="flex justify-around pt-4 pb-4">
               <button
                 disabled={fees && fees[index] === undefined}
-                className={`border border-gray-300 bg-white text-black px-2 py-1 rounded font-bold ${fees && fees[index] === undefined ? 'cursor-not-allowed opacity-50' : 'hover:text-primary hover:bg-black'}`}
+                className={`relative border border-gray-300 bg-white text-black px-2 py-1 rounded font-bold ${fees && fees[index] === undefined ? 'cursor-not-allowed opacity-50' : 'hover:text-primary hover:bg-black'}`}
                 onClick={() => handleOpenModal(token.tokenId, fees[index])}
               >
                 <FontAwesomeIcon icon={faHand} />{' '}

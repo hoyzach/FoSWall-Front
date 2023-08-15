@@ -15,6 +15,7 @@ export default function Wall() {
   const [tokenNumber, setTokenNumber] = useState('');
   const [feesAccrued, setFeesAccrued] = useState(undefined);
   const [submitClicked, setSubmitClicked] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const { network: network, contract: contract, prefix: prefix, WalletClient: WalletClient } = useClientCheck();
 
@@ -65,6 +66,7 @@ export default function Wall() {
   const handleSubmit = async(e) => {
     e.preventDefault();
     setSubmitClicked(true);
+    setErrorMessage('');
   
     try {
       const readData = await readContract({
@@ -75,23 +77,17 @@ export default function Wall() {
       });
       setFeesAccrued(readData);
     } catch (error) {
-      
-      const revertReason = extractRevertReason(error)
-      console.error(revertReason);
+      setErrorMessage(error.cause.reason)
+      setFeesAccrued(null);
     }
   };
-
-  function extractRevertReason(error) {
-    const revertReasonMatch = error.message.match(/reverted with the following reason: (.*)\n/);
-    return revertReasonMatch ? revertReasonMatch[1] : null;
-  }
 
   return (
     <>
       {!WalletClient && (
         <div className='border border-4 bg-gray-700 p-4'>Please connect your wallet.</div>
       )}
-      <div className="flex flex-wrap justify-center item-center px-4 lg:px-16">
+      <div className="flex flex-wrap justify-center items-center px-4 lg:px-16">
         {data.map((token) => (
           <div key={token.tokenId} className="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 sm:min-w-[500px]">
             <img src={token.imageData} alt={`Token ${token.tokenId} Image`} className="w-full h-auto rounded-3xl shadow-xl"/>
@@ -133,25 +129,29 @@ export default function Wall() {
         >
           Get fees
         </button>
-        <span className='px-2 text-black font-bold'>              
-          {
-            submitClicked ?  // Check if submit was clicked
-              (feesAccrued !== undefined ? 
-                (() => {
-                  const numStr = ethers.formatEther(feesAccrued);
-                  const decimalPart = numStr.split('.')[1] || '';
-                  let displayNum;
-                  if (decimalPart.length > 8) {
-                    displayNum = numStr.split('.')[0] + '.' + decimalPart.slice(0, 8) + '...';
-                  } else {
-                    displayNum = numStr;
-                  }
-                  return displayNum;
-                })() + " Matic" 
-              : "Loading...")
-            : null // If submit was not clicked yet, don't display anything
-          }
-        </span>
+        {
+          submitClicked && (
+            <span className='px-2 text-white text-sm border border-2 bg-gray-700 p-1 mx-1'>
+              {
+                feesAccrued !== undefined ?
+                  (feesAccrued !== null ? // Check if an error occurred
+                    (() => {
+                      const numStr = ethers.formatEther(feesAccrued);
+                      const decimalPart = numStr.split('.')[1] || '';
+                      let displayNum;
+                      if (decimalPart.length > 8) {
+                        displayNum = numStr.split('.')[0] + '.' + decimalPart.slice(0, 8) + '...';
+                      } else {
+                        displayNum = numStr;
+                      }
+                      return displayNum;
+                    })() + " Matic"
+                  : errorMessage) // Display "Error" if feesAccrued is null
+                : "Loading..." // Display "Loading..." if feesAccrued is undefined
+              }
+            </span>
+          )
+        }
       </form>
     </>
   );
