@@ -55,11 +55,11 @@ export default function Create() {
 
             {/* Preview Card */}
             <div className="text-white text-center bg-black m-2 rounded-3xl p-2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] overflow-hidden">
-                <div className="relative flex flex-col text-xs h-full items-center">
-                    <div className="absolute top-[22%] sm:text-base font-bold">FoS #16</div>
-                    <div className="absolute top-[47%] sm:text-sm text-primary whitespace-nowrap overflow-hidden">{expression}</div>
-                    <div className="absolute top-[70%] sm:text-base">Likes: 0</div>
-                    <div className="absolute top-[80%] sm:text-base">Dislikes: 0</div>
+                <div className="relative flex flex-col text-[10px] h-full items-center">
+                    <div className="absolute top-[22%] text-[12px] sm:text-lg font-bold">FoS #Preview</div>
+                    <div className="absolute top-[47%] sm:text-[16.5px] text-primary whitespace-nowrap overflow-hidden">{expression}</div>
+                    <div className="absolute top-[70%] sm:text-[16.5px]">Likes: 0</div>
+                    <div className="absolute top-[80%] sm:text-[16.5px]">Dislikes: 0</div>
                 </div>
             </div>
             
