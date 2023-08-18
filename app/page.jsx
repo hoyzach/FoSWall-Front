@@ -61,7 +61,8 @@ export default function Home() {
             <h3 className='text-lg italic font-bold text-center'>Inactive Token?</h3>
             <br/>
             <p className='text-center leading-7 text-white'> 
-                When an FoS Token is 'claimed' or 'nullified' rendering it inactive, its expression is changed, but everything else on the token remains.
+                When an FoS Token is 'claimed' or 'nullified', it becomes 'inactive', and its expression is altered, while all other aspects of the token remain unchanged. 
+                Inactive tokens lose the ability to be liked, disliked, claimed, or further nullified.
                 'Inactive' FoS Tokens are not burned and can still be transferred to different wallet addresses.
             </p>
         </div>
