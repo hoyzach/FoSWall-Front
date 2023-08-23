@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import useContractAction from '../../utils/contractAction';
 
 export const metadata = {
-    title: 'Create'
+    title: 'Mint'
 }
 
-export default function Create() {
+export default function Mint() {
     const [expression, setExpression] = useState('');
     const [error, setError] = useState('');
 
-    const { executeAction: mint } = useContractAction({ readFunctionName: 'creationFee', writeFunctionName: 'mint' });
+    const { executeAction: mint } = useContractAction({ readFunctionName: 'mintFee', writeFunctionName: 'mint' });
 
     const handleChange = (event) => {
         event.preventDefault();
@@ -49,7 +49,7 @@ export default function Create() {
                     )}
                 </div>
                 <div className="flex items-center justify-between">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Create</button>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Mint</button>
                 </div>
             </form>
 

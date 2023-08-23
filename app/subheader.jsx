@@ -6,7 +6,7 @@ const Subheader = () => {
 
     const likeFee = useContractReadSingle({ readFunctionName: 'likeFee' });
     const dislikeFee = useContractReadSingle({ readFunctionName: 'dislikeFee' });
-    const mintFee = useContractReadSingle({ readFunctionName: 'creationFee' });
+    const mintFee = useContractReadSingle({ readFunctionName: 'mintFee' });
     const dislikeThreshold = useContractReadSingle({ readFunctionName: 'dislikeThreshold' });
 
     return (
@@ -18,7 +18,7 @@ const Subheader = () => {
                     <p>Dislike Fee | <strong>{dislikeFee ? ethers.formatEther(dislikeFee) : 'Loading...'}</strong> {dislikeFee && 'Matic'}</p>
                 </div>
                 <div className="flex flex-col justify-center items-center text-sm">
-                    <p>Creation Fee | <strong>{mintFee ? ethers.formatEther(mintFee) : 'Loading...'}</strong> {mintFee && 'Matic'}</p>
+                    <p>Mint Fee | <strong>{mintFee ? ethers.formatEther(mintFee) : 'Loading...'}</strong> {mintFee && 'Matic'}</p>
                     <p>Dislike Threshold | <strong>{dislikeThreshold ? parseInt(dislikeThreshold) : 'Loading...'}</strong></p>
                 </div>
             </div>
