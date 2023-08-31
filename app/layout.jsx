@@ -1,5 +1,4 @@
 import './globals.css';
-// import { Montserrat } from "next/font/google"
 import { Providers } from './providers';
 import Footer from './footer';
 import Header from './header';
@@ -7,21 +6,14 @@ import Subheader from './subheader';
 import ScrollToTopButton from './scrollToTopButton.jsx';
 import { Toaster } from 'react-hot-toast';
 import { IBM_Plex_Serif } from 'next/font/google'
-// const montserrat = Montserrat({
-//   weight: ["400", "700"],
-//   subsets: ["latin"],
-//   variable: "--font-montserrat",
-// })
+
 const serif = IBM_Plex_Serif({ weight: ["400", "700"], subsets: ['latin'] })
 
 export const metadata = {
-  title: {
-    default: 'Freedom of Speech',
-    template: '%s | Freedom of Speech',
-  },
+  title: 'Freedom of Speech',
   description: "Create and rate on-chain NFTs",
 }
-// 
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">

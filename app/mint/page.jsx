@@ -1,11 +1,7 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useContractAction from '../../utils/contractAction';
 import contractWrite from '../../utils/contractWrite';
-
-export const metadata = {
-    title: 'Mint'
-}
 
 export default function Mint() {
     const [expression, setExpression] = useState('');
@@ -14,6 +10,10 @@ export default function Mint() {
 
     const { executeAction: mint } = useContractAction({ readFunctionName: 'mintFee', writeFunctionName: 'mint' });
     const { executeAction: acceptDisclaimer, actionTxSuccess: disclaimerTXSuccess } = contractWrite({ writeFunctionName: 'acceptDisclaimer' });
+
+    useEffect(() => {
+        document.title = 'Mint | Freedom of Speech';
+      }, []);
 
     const handleChange = (event) => {
         event.preventDefault();
@@ -46,20 +46,20 @@ export default function Mint() {
                         onChange={handleChange}
                     />
                     {error && (
-                        <p className="text-red-500 text-xs italic">{error}</p>
+                        <p className="ml-3 text-error text-xs italic font-bold">{error}</p>
                     )}
                 </div>
-                <div className='flex items-center'>
+                <div className='flex items-center text-white'>
                     <div className="flex">
                         <button 
                             disabled={!isDisclaimerAccepted}
-                            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${!isDisclaimerAccepted ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${!isDisclaimerAccepted ? 'opacity-50 cursor-not-allowed' : ''}`}
                             type="submit"
                         >
                             Mint
                         </button>
                     </div>
-                    <div className="flex ml-4 text-white">
+                    <div className="flex ml-4">
                         <input 
                             type="checkbox" 
                             id="disclaimer" 
@@ -71,8 +71,8 @@ export default function Mint() {
                                 }
                             }}
                         />
-                        <label htmlFor="disclaimer" className="ml-2">
-                            Accept <a href="/disclaimer" target='_blank' className="hover:text-blue-500"><u>Disclaimer</u></a>
+                        <label className="ml-2">
+                            Accept <a href="/disclaimer" target='_blank' className="hover:text-link-hover"><u>Disclaimer</u></a>
                         </label>
                     </div>
                 </div>

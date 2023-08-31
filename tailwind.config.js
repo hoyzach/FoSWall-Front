@@ -23,7 +23,9 @@ module.exports = {
     textColor: {
       'primary': '#00CED1',
       'black': '#000000',
-      'white': '#ffffff'
+      'white': '#ffffff',
+      'link-hover': '#1976D2',
+      'error' : '#F44336'
     }},
     plugins: [],
   } 

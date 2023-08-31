@@ -27,6 +27,10 @@ export default function Owned() {
   }
   
   useEffect(() => {
+    document.title = 'Owned | Freedom of Speech';
+  }, []);
+
+  useEffect(() => {
     if(WalletClient) {
       async function fetchData(address) {
         const data = await tokenData(address);

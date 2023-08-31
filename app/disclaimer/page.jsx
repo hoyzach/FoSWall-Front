@@ -1,6 +1,12 @@
 'use client'
+import { useEffect } from 'react';
 
 export default function Disclaimer() {
+
+  useEffect(() => {
+    document.title = 'Disclaimer | Freedom of Speech';
+  }, []);
+
   return (
     <div style={{backgroundColor: 'rgba(31, 41, 55, 0.8)'}} className="border border-4 text-primary text-sm md:text-base xl:text-lg p-4 w-5/6 md:w-2/3 2xl:w-1/2 rounded">
         <h2 className="font-bold text-2xl text-center">Freedom of Speech NFT Disclaimer</h2>
