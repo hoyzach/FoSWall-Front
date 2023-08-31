@@ -26,10 +26,17 @@ function contractWrite({ writeFunctionName }) {
     // Write function call
     executeAction = async (args) => {
         toast.loading('Transaction is pending...');
-        contractAction({
-            args: [args],
+        if (args) {
+          contractAction({
+              args: [args],
+              signer: signer
+          });
+        }
+        else {
+          contractAction({
             signer: signer
         });
+        }
     }
 
     // Action logging

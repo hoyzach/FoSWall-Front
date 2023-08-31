@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import useContractAction from '../../utils/contractAction';
+import contractWrite from '../../utils/contractWrite';
 
 export const metadata = {
     title: 'Mint'
@@ -9,8 +10,10 @@ export const metadata = {
 export default function Mint() {
     const [expression, setExpression] = useState('');
     const [error, setError] = useState('');
+    const [isDisclaimerAccepted, setIsDisclaimerAccepted] = useState(false);
 
     const { executeAction: mint } = useContractAction({ readFunctionName: 'mintFee', writeFunctionName: 'mint' });
+    const { executeAction: acceptDisclaimer, actionTxSuccess: disclaimerTXSuccess } = contractWrite({ writeFunctionName: 'acceptDisclaimer' });
 
     const handleChange = (event) => {
         event.preventDefault();
@@ -19,8 +22,8 @@ export default function Mint() {
             setError('Expression must be less than 48 bytes');
         } else {
             setError('');
-            setExpression(value);
         }
+        setExpression(value);  // Always update expression
     };
 
     return (
@@ -29,9 +32,7 @@ export default function Mint() {
                 className="w-full max-w-lg px-8 pt-6 pb-8 mb-4"
                 onSubmit={(e) => {
                     e.preventDefault();
-                    if (!error) {
-                        mint(expression);
-                    }
+                    mint(expression);
                 }}
             >
                 <div className="mb-4">
@@ -48,8 +49,32 @@ export default function Mint() {
                         <p className="text-red-500 text-xs italic">{error}</p>
                     )}
                 </div>
-                <div className="flex items-center justify-between">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Mint</button>
+                <div className='flex items-center'>
+                    <div className="flex">
+                        <button 
+                            disabled={!isDisclaimerAccepted}
+                            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${!isDisclaimerAccepted ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            type="submit"
+                        >
+                            Mint
+                        </button>
+                    </div>
+                    <div className="flex ml-4 text-white">
+                        <input 
+                            type="checkbox" 
+                            id="disclaimer" 
+                            checked={isDisclaimerAccepted}
+                            onChange={() => {
+                                setIsDisclaimerAccepted(!isDisclaimerAccepted);
+                                if (!isDisclaimerAccepted) {
+                                    acceptDisclaimer();
+                                }
+                            }}
+                        />
+                        <label htmlFor="disclaimer" className="ml-2">
+                            Accept <a href="/disclaimer" target='_blank' className="hover:text-blue-500"><u>Disclaimer</u></a>
+                        </label>
+                    </div>
                 </div>
             </form>
 

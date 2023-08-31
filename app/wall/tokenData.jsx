@@ -1,5 +1,5 @@
 export async function tokenData() {
-  const response = await fetch('https://api.studio.thegraph.com/query/47271/foswalltest/v0.0.8', {
+  const response = await fetch('https://api.studio.thegraph.com/query/47271/foswalltest/version/latest', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
