@@ -2,14 +2,17 @@
 import React, { useState, useEffect } from 'react';
 import useContractAction from '../../utils/contractAction';
 import contractWrite from '../../utils/contractWrite';
+import useClientCheck from '../../utils/clientCheck';
 
 export default function Mint() {
     const [expression, setExpression] = useState('');
     const [error, setError] = useState('');
     const [isDisclaimerAccepted, setIsDisclaimerAccepted] = useState(false);
 
+    const { WalletClient: WalletClient } = useClientCheck();
+
     const { executeAction: mint } = useContractAction({ readFunctionName: 'mintFee', writeFunctionName: 'mint' });
-    const { executeAction: acceptDisclaimer, actionTxSuccess: disclaimerTXSuccess } = contractWrite({ writeFunctionName: 'acceptDisclaimer' });
+    const { executeAction: acceptDisclaimer } = contractWrite({ writeFunctionName: 'acceptDisclaimer' });
 
     useEffect(() => {
         document.title = 'Mint | Freedom of Speech';
@@ -18,8 +21,8 @@ export default function Mint() {
     const handleChange = (event) => {
         event.preventDefault();
         const value = event.target.value;
-        if (new Blob([value]).size > 48) {
-            setError('Expression must be less than 48 bytes');
+        if (new Blob([value]).size > 56) {
+            setError('Expression must be less than 56 bytes');
         } else {
             setError('');
         }
@@ -28,6 +31,9 @@ export default function Mint() {
 
     return (
         <>
+            {!WalletClient && (
+                <div className='border border-4 bg-gray-700 p-4 mb-12'>Please connect your wallet.</div>
+            )}
             <form 
                 className="w-full max-w-lg px-8 pt-6 pb-8 mb-4"
                 onSubmit={(e) => {
@@ -52,7 +58,7 @@ export default function Mint() {
                 <div className='flex items-center text-white'>
                     <div className="flex">
                         <button 
-                            disabled={!isDisclaimerAccepted}
+                            disabled={!isDisclaimerAccepted || !WalletClient}
                             className={`bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${!isDisclaimerAccepted ? 'opacity-50 cursor-not-allowed' : ''}`}
                             type="submit"
                         >
@@ -63,6 +69,8 @@ export default function Mint() {
                         <input 
                             type="checkbox" 
                             id="disclaimer" 
+                            disabled={!WalletClient}
+                            className={!WalletClient ? 'opacity-50 cursor-not-allowed' : ''}
                             checked={isDisclaimerAccepted}
                             onChange={() => {
                                 setIsDisclaimerAccepted(!isDisclaimerAccepted);

@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faThumbsDown, faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 import { tokenData } from './tokenData';
 import useContractAction from '../../utils/contractAction';
 import useClientCheck from '../../utils/clientCheck';
@@ -11,7 +11,6 @@ import { ethers } from 'ethers';
 
 export default function Wall() {
   const [data, setData] = useState([]);
-  const [reload, setReload] = useState(false);
   const [tokenNumber, setTokenNumber] = useState('');
   const [feesAccrued, setFeesAccrued] = useState(undefined);
   const [submitClicked, setSubmitClicked] = useState(false);
@@ -26,29 +25,9 @@ export default function Wall() {
     document.title = 'Wall | Freedom of Speech';
   }, []);
 
-  useEffect(() => {
-    async function fetchData() {
-      const data = await tokenData();
-      setData(data);
-    }
-
-    fetchData();
-  }, [reload]);
-
-  useEffect(() => {
-    let timer;
-    if(likeTxSuccess || dislikeTxSuccess) {
-      console.log("reload")
-      timer = setTimeout(() => {
-        Reload();
-      }, 15000); // wait for 15,000 milliseconds = 15 seconds
-    }
-    // clear the timer when the component unmounts
-    return () => clearTimeout(timer);
-  }, [likeTxSuccess, dislikeTxSuccess]);
-
-  const Reload = () => {
-    setReload(prevState => !prevState);
+  const fetchData = async () => {
+    const data = await tokenData();
+    setData(data);
   };
 
   const handleLike = (tokenId) => {
@@ -66,10 +45,15 @@ export default function Wall() {
     setTokenNumber(e.target.value)
   };
 
+  const handleRefresh = async () => {
+    console.log("Refresh!");
+    await fetchData();
+  };
+
   const handleSubmit = async(e) => {
     e.preventDefault();
     setSubmitClicked(true);
-    setErrorMessage('');
+    setFeesAccrued(undefined);
   
     try {
       const readData = await readContract({
@@ -87,9 +71,6 @@ export default function Wall() {
 
   return (
     <>
-      {!WalletClient && (
-        <div className='border border-4 bg-gray-700 p-4'>Please connect your wallet.</div>
-      )}
       <div className="flex flex-wrap justify-center items-center px-4 lg:px-16">
         {data.map((token) => (
           <div key={token.tokenId} className="p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 sm:min-w-[500px]">
@@ -97,7 +78,7 @@ export default function Wall() {
             <div className="flex justify-around pt-4 pb-4">
               <button 
                 disabled={!WalletClient}
-                className="relative border border-gray-300 bg-white text-black px-2 py-1 rounded hover:text-primary hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed" 
+                className="w-10 h-9 relative border border-gray-300 bg-white text-black px-2 py-1 rounded hover:text-primary hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed" 
                 onClick={() => handleLike(token.tokenId)}
               >
                 <FontAwesomeIcon icon={faThumbsUp} />
@@ -105,14 +86,20 @@ export default function Wall() {
                   Connect wallet
                 </div>
               </button>
-              <button className="border border-gray-300 bg-white text-black px-2 py-1 rounded hover:bg-black">
+              <button className="w-10 h-9 border border-gray-300 bg-white text-black px-2 py-1 rounded hover:bg-black">
                 <a href={`https://${prefix}opensea.io/assets/${network}/${contract}/${token.tokenId}`} target='_blank'>
                   <img src='/opensea.png' className="w-6 h-6"></img>
                 </a>
               </button>
+              {/* <button 
+                className="w-10 h-9 border border-gray-300 bg-white text-black px-2 py-1 rounded hover:text-primary hover:bg-black"
+                onClick={() => handleRefresh(token.tokenId)}
+              >
+                <FontAwesomeIcon icon={faArrowsRotate} />
+              </button> */}
               <button 
                 disabled={!WalletClient}
-                className="relative border border-gray-300 bg-white text-black px-2 pt-1 rounded hover:text-primary hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed" 
+                className="w-10 h-9 relative border border-gray-300 bg-white text-black px-2 pt-1 rounded hover:text-primary hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed" 
                 onClick={() => handleDislike(token.tokenId)}
               >
                 <FontAwesomeIcon icon={faThumbsDown} />
@@ -124,10 +111,15 @@ export default function Wall() {
           </div>
         ))}
       </div>
+      <button 
+        className="fixed bottom-20 left-4 z-10 w-10 h-9 border border-gray-300 bg-white text-black px-2 py-1 rounded hover:text-primary hover:bg-black"
+        onClick={() => handleRefresh()}
+      >
+        <FontAwesomeIcon icon={faArrowsRotate} />
+      </button>
       <form className="fixed bottom-10 left-4" onSubmit={handleSubmit}>
         <input value={tokenNumber} onChange={handletokenNumberChange} className="max-w-[70px] mr-2 text-black text-center text-sm px-4 py-1" placeholder="FoS #"/>
         <button
-          disabled={!WalletClient}
           className='border border-gray-300 bg-white text-black hover:bg-black hover:text-primary text-sm px-2.5 py-1 rounded disabled:opacity-50 disabled:cursor-not-allowed'
         >
           Get fees

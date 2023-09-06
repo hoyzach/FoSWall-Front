@@ -26,7 +26,7 @@ export default function Home() {
             <p className='text-center leading-7 text-white'>
                 Users are able to mint as many FoS Tokens as desired paying a mint fee for each one. 
                 When selecting an expression to display on your FoS Token, please follow all the rules outlined in the Freedom of Speech <a className="hover:text-primary underline" href='/disclaimer' target='_blank'>disclaimer</a>.
-                The maximum length of an expression is 48 bytes, or 48 characters.
+                The maximum length of an expression is 56 bytes.
             </p>
             <br/><br/>
             <h3 className='text-lg italic font-bold text-center'>Interacting with FoS Tokens</h3>

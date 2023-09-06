@@ -33,7 +33,7 @@ export async function tokenData() {
       };
     }
   }).filter(Boolean); // Filter out any undefined values
-  console.log(cardData)
+  console.log("data: ", cardData)
 
   return cardData;
 }

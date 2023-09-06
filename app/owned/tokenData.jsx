@@ -26,7 +26,6 @@ export async function tokenData(signer) {
   }
 
   const data = await response.json();
-  console.log("DATA: ", data.data)
   const tokens = data.data.tokens;
   const cardData = tokens.map(token => {
     let tokenData = JSON.parse(atob(token.tokenURI.split(",")[1]));
@@ -35,6 +34,7 @@ export async function tokenData(signer) {
       imageData: tokenData.image_data
     };
   });
+  console.log("data: ", cardData)
 
   return cardData;
 }

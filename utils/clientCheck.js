@@ -6,9 +6,9 @@ const NEXT_PUBLIC_TEST_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_TEST_CONTRACT_
 const useClientCheck = () => {
   const { data: WalletClient } = useWalletClient();
 
-  let network = "matic";
+  let network = "mumbai"; //matic
   let contract = NEXT_PUBLIC_CONTRACT_ADDRESS;
-  let prefix = "";
+  let prefix = "testnets."; //""
 
   if (WalletClient) {
     if (WalletClient.chain.id === 80001) {

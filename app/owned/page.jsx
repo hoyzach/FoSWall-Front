@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHand } from '@fortawesome/free-solid-svg-icons';
+import { faHand, faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 import { tokenData } from './tokenData';
 import contractWrite from '../../utils/contractWrite';
 import useClientCheck from '../../utils/clientCheck';
@@ -11,63 +11,39 @@ import { ethers } from 'ethers';
 export default function Owned() {
   const [data, setData] = useState([]);
   const [zero, setZero] = useState(true);
-  const [connected, setConnected] = useState(true);
-  // const [reload, setReload] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tokenIdToBeClaimed, setTokenIdToBeClaimed] = useState(null);
   const [feesToBeClaimed, setFeesToBeClaimed] = useState(null);
-  // const [refreshFees, setRefreshFees] = useState(0);
 
   const { contract: contract, WalletClient: WalletClient } = useClientCheck();
   const { executeAction: claimToken, actionTxSuccess: claimTXSuccess } = contractWrite({ writeFunctionName: 'claimToken' });
-  let fees;
+  
+  let fees = [];
   if(data){
     fees = useContractReadLoop(contract, "getfeesAccrued", data);
-    console.log('fees: ', fees)
+    console.log('fees: ', fees);
   }
   
   useEffect(() => {
     document.title = 'Owned | Freedom of Speech';
   }, []);
 
-  useEffect(() => {
-    if(WalletClient) {
-      async function fetchData(address) {
-        const data = await tokenData(address);
-        console.log(data)
-        if(data.length > 0){
-          setZero(false);
-        } else {setZero(true);}
-        setData(data);
-      }
+  const fetchData = async (address) => {
+    const data = await tokenData(address);
+    if(data.length > 0){
+      setZero(false);
+    } else {setZero(true);}
+    setData(data);
+  };
 
+  useEffect(() => {
+    console.log('Data reload!')
+    if(WalletClient) {
       fetchData(WalletClient.account.address);
       } else { 
         setData([]);
       }
-      console.log('data: ',data)
   }, [WalletClient]);
-
-  // useEffect(() => {
-  //   let timer;
-  //   if(claimTXSuccess) {
-  //     // handleRefreshFees();
-  //     console.log("reload")
-  //     timer = setTimeout(() => {
-  //       Reload();
-  //     }, 15000); // wait for 15,000 milliseconds = 15 seconds
-  //   }
-  //   // clear the timer when the component unmounts
-  //   return () => clearTimeout(timer);
-  // }, [claimTXSuccess]);
-
-  // const Reload = () => {
-  //   setReload(prevState => !prevState);
-  // };
-
-  // const handleRefreshFees = () => {
-  //   setRefreshFees(prev => prev + 1);
-  // }
 
   const handleClaim = (tokenId) => {
     console.log(`Claim item ${tokenId}!`);
@@ -85,13 +61,22 @@ export default function Owned() {
     setIsModalOpen(false);
   };
 
+  const handleRefresh = () => {
+    if(WalletClient) {
+      fetchData(WalletClient.account.address);
+      } else { 
+        setData([]);
+      }
+      console.log('Refresh!');
+  };
+
   return (
     <>
       {!WalletClient && (
         <div className='border border-4 bg-gray-700 p-4'>Please connect your wallet.</div>
       )}
       {WalletClient && zero && (
-        <div className='border border-4 bg-gray-700 p-4'>You don't own any tokens. Please visit the create page to start minting!</div>
+        <div className='border border-4 bg-gray-700 p-4'>You don't own any tokens. Please visit the <a href="/mint" className="hover:text-link-hover"><u>mint</u></a> page to start minting!</div>
       )}
       {/* <button className='fixed bottom-10 left-4 border border-gray-300 bg-white text-black hover:bg-black hover:text-primary text-sm px-2.5 py-1 rounded' onClick={handleRefreshFees}>Refresh fees</button> */}
       <div className="flex flex-wrap justify-center items-center px-4 lg:px-16">
@@ -100,15 +85,15 @@ export default function Owned() {
             <img src={token.imageData} alt={`Token ${token.tokenId} Image`} className="w-full h-auto rounded-3xl shadow-xl"/>
             <div className="flex justify-around pt-4 pb-4">
               <button
-                disabled={fees && fees[index] === undefined}
-                className={`relative border border-gray-300 bg-white text-black px-2 py-1 rounded font-bold ${fees && fees[index] === undefined ? 'cursor-not-allowed opacity-50' : 'hover:text-primary hover:bg-black'}`}
+                disabled={!fees || fees[index] === undefined}  // Conditional check
+                className={`relative border border-gray-300 bg-white text-black px-2 py-1 rounded font-bold ${!fees || fees[index] === undefined ? 'cursor-not-allowed opacity-50' : 'hover:text-primary hover:bg-black'}`}
                 onClick={() => handleOpenModal(token.tokenId, fees[index])}
               >
                 <FontAwesomeIcon icon={faHand} />{' '}
-                Claim <span>
+                <span>
                 {
-                  fees && fees[index] !== undefined ? 
-                    (() => {
+                  (fees && fees[index] !== undefined ?
+                    "Claim " + (() => {
                       const numStr = ethers.formatEther(fees[index]);
                       const decimalPart = numStr.split('.')[1] || '';
                       let displayNum;
@@ -118,8 +103,8 @@ export default function Owned() {
                         displayNum = numStr;
                       }
                       return displayNum;
-                    })() + " Matic" 
-                  : "Loading..."
+                    })() + " Matic"
+                  : "Token Inactive")
                 }
                 </span>
               </button>
@@ -157,6 +142,12 @@ export default function Owned() {
           </div>
         </div>
       )}
+      <button 
+        className="fixed bottom-10 left-4 w-10 h-9 border border-gray-300 bg-white text-black px-2 py-1 rounded hover:text-primary hover:bg-black"
+        onClick={() => handleRefresh()}
+      >
+        <FontAwesomeIcon icon={faArrowsRotate} />
+      </button>
     </>
   );
   
