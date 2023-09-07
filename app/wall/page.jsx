@@ -21,10 +21,6 @@ export default function Wall() {
   const { executeAction: addLike, actionTxSuccess: likeTxSuccess } = useContractAction({ readFunctionName: 'likeFee', writeFunctionName: 'addLike' });
   const { executeAction: addDislike, actionTxSuccess: dislikeTxSuccess } = useContractAction({ readFunctionName: 'dislikeFee', writeFunctionName: 'addDislike' });
 
-  useEffect(() => {
-    document.title = 'Wall | Freedom of Speech';
-  }, []);
-
   const fetchData = async () => {
     const data = await tokenData();
     setData(data);
@@ -68,6 +64,11 @@ export default function Wall() {
       setFeesAccrued(null);
     }
   };
+
+  useEffect(() => {
+    document.title = 'Wall | Freedom of Speech';
+    fetchData();
+  }, []);
 
   return (
     <>
