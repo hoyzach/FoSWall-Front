@@ -2,11 +2,11 @@
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHand, faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
+import { ethers } from 'ethers';
 import { tokenData } from './tokenData';
+import { useContractReadLoop } from '../../utils/contractReads';
 import contractWrite from '../../utils/contractWrite';
 import useClientCheck from '../../utils/clientCheck';
-import { useContractReadLoop } from '../../utils/contractReads';
-import { ethers } from 'ethers';
 
 export default function Owned() {
   const [data, setData] = useState([]);
