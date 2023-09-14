@@ -24,7 +24,7 @@ import {
     useEffect(() => {
       if (data) {
         setReadData(data);
-        console.log(`calling ${readFunctionName}`);
+        // console.log(`calling ${readFunctionName}`);
       }
     }, [data]);
   
@@ -53,24 +53,28 @@ import {
           signer: signer
         });
       };
-      
-      // Action logging
-      useEffect(() => {
-        console.log("___________");
-        console.log(`actionData:`, actionData);
-        console.log(`is${writeFunctionName}Loading:`, isActionLoading);
-        console.log(`is${writeFunctionName}Started:`, isActionStarted);
-        console.log(`${writeFunctionName}Error:`, actionError);
-        console.log("___________");
-      }, [actionData, isActionLoading, isActionStarted]);
+
+    //   // Action logging
+    //   useEffect(() => {
+    //     console.log("___________");
+    //     console.log(`actionData:`, actionData);
+    //     console.log(`is${writeFunctionName}Loading:`, isActionLoading);
+    //     console.log(`is${writeFunctionName}Started:`, isActionStarted);
+    //     console.log(`${writeFunctionName}Error:`, actionError);
+    //     console.log("___________");
+    //   }, [actionData, isActionLoading, isActionStarted]);
     }
     
     useEffect(() => {
       if (actionError) {
         toast.dismiss();
-        if (actionError.cause.details){
-          toast.error(actionError.cause.details)
-        } else { toast.error(actionError.cause.reason) }
+        if (actionError.cause.details && actionError.cause.details.includes("insufficient funds for gas")) {
+          toast.error('Insufficent funds for gas');
+        } else if (actionError.cause.details) {
+          toast.error(actionError.cause.details);
+        } else {
+          toast.error(actionError.cause.reason);
+        }
       }
     }, [actionError]);
   

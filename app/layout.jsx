@@ -28,6 +28,8 @@ export default function RootLayout({ children }) {
                   padding: '25px',
                   color: '#00CED1',
                   background: '#1F2937',
+                  maxWidth: '500px',
+                  maxHeight: '500px', 
                 },
               }} containerStyle={{
                 top: 130,

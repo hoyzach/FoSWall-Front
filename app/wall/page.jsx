@@ -1,13 +1,14 @@
 'use client'
 import { useEffect, useState } from 'react';
+import { ethers } from 'ethers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faThumbsDown, faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 import { tokenData } from './tokenData';
+import { readContract } from '@wagmi/core'
 import useContractAction from '../../utils/contractAction';
 import useClientCheck from '../../utils/clientCheck';
-import { readContract } from '@wagmi/core'
 import contractABI from "../../contracts/FreedomOfSpeech.json";
-import { ethers } from 'ethers';
+
 
 export default function Wall() {
   const [data, setData] = useState([]);
@@ -92,12 +93,6 @@ export default function Wall() {
                   <img src='/opensea.png' className="w-6 h-6"></img>
                 </a>
               </button>
-              {/* <button 
-                className="w-10 h-9 border border-gray-300 bg-white text-black px-2 py-1 rounded hover:text-primary hover:bg-black"
-                onClick={() => handleRefresh(token.tokenId)}
-              >
-                <FontAwesomeIcon icon={faArrowsRotate} />
-              </button> */}
               <button 
                 disabled={!WalletClient}
                 className="w-10 h-9 relative border border-gray-300 bg-white text-black px-2 pt-1 rounded hover:text-primary hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed" 

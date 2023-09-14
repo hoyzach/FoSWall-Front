@@ -21,7 +21,7 @@ export default function Owned() {
   let fees = [];
   if(data){
     fees = useContractReadLoop(contract, "getfeesAccrued", data);
-    console.log('fees: ', fees);
+    // console.log('fees: ', fees);
   }
   
   useEffect(() => {

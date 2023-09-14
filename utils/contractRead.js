@@ -10,8 +10,7 @@ function useContractReadSingle({ readFunctionName }) {
         abi: contractABI,
         functionName: readFunctionName,
     });
-
-    console.log(data)
+    
     return data
 }
 

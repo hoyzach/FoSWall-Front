@@ -21,7 +21,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
     polygonMumbai,
   ],
-  [alchemyProvider({apiKey: 'rd2bVW5q6KmYyjP7uic2SgINXEBb2fKx'}), publicProvider()]
+  [alchemyProvider({apiKey: process.env.NEXT_PUBLIC_ALCHEMY_KEY}), publicProvider()]
 );
 
 const projectId = 'bcdee4db8a6a9d881ea7c895f57b2413';
