@@ -25,7 +25,7 @@ function contractWrite({ writeFunctionName }) {
 
     // Write function call
     executeAction = async (args) => {
-        toast.loading('Transaction is pending...');
+        toast.success(`${writeFunctionName} submitted!`);
         if (args) {
           contractAction({
               args: [args],
@@ -48,12 +48,6 @@ function contractWrite({ writeFunctionName }) {
         console.log("___________");
     }, [actionData, isActionLoading, isActionStarted]);
 
-    // Check TX for action function
-    ({ isSuccess: actionTxSuccess, error: actionTxError } = useWaitForTransaction({
-        confirmations: 3,
-        hash: actionData?.hash,
-        }));
-
     useEffect(() => {
         if (actionError) {
           toast.dismiss();
@@ -62,14 +56,6 @@ function contractWrite({ writeFunctionName }) {
           } else { toast.error(actionError.cause.reason) }
         }
       }, [actionError]);
-
-    useEffect(() => {
-        if (actionTxSuccess) {
-          toast.dismiss();
-          // Show a success toast when the transaction is successful
-          toast.success(`${writeFunctionName} successful!`);
-        }
-      }, [actionTxSuccess]);
 
     return {
         executeAction: executeAction,

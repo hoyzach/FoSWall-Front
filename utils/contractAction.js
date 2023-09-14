@@ -46,15 +46,14 @@ import {
       // Write function call
       executeAction = async (args) => {
         // Show loading toast without awaiting success or error
-        toast.loading('Transaction is pending...');
+        toast.success(`${writeFunctionName} submitted!`);
         contractAction({
           args: [args],
           value: readData,
           signer: signer
         });
       };
-
-  
+      
       // Action logging
       useEffect(() => {
         console.log("___________");
@@ -64,13 +63,8 @@ import {
         console.log(`${writeFunctionName}Error:`, actionError);
         console.log("___________");
       }, [actionData, isActionLoading, isActionStarted]);
-  
-      // Check TX for action function
-      ({ isSuccess: actionTxSuccess, error: actionTxError } = useWaitForTransaction({
-        confirmations: 3,
-        hash: actionData?.hash,
-      }));
     }
+    
     useEffect(() => {
       if (actionError) {
         toast.dismiss();
@@ -79,15 +73,6 @@ import {
         } else { toast.error(actionError.cause.reason) }
       }
     }, [actionError]);
-
-    useEffect(() => {
-      if (actionTxSuccess) {
-        toast.dismiss();
-        // Show a success toast when the transaction is successful
-        toast.success(`${writeFunctionName} successful!`);
-      }
-    }, [actionTxSuccess]);
-    
   
     return {
       executeAction: executeAction,
