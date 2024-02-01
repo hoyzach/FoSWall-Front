@@ -1,20 +1,28 @@
-import { useWalletClient } from "wagmi";
+import { useWalletClient, useNetwork } from "wagmi";
 
 const NEXT_PUBLIC_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
 const NEXT_PUBLIC_TEST_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_TEST_CONTRACT_ADDRESS;
 
 const useClientCheck = () => {
   const { data: WalletClient } = useWalletClient();
+  const { chain } = useNetwork();
 
-  let network = "mumbai"; //matic
+  let network = null;
   let contract = NEXT_PUBLIC_CONTRACT_ADDRESS;
-  let prefix = "testnets."; //""
+  let prefix = "";
 
-  if (WalletClient) {
-    if (WalletClient.chain.id === 80001) {
-      network = 'mumbai';
-      contract = NEXT_PUBLIC_TEST_CONTRACT_ADDRESS;
-      prefix = "testnets.";
+  if (WalletClient && chain) {
+    switch (chain.id) {
+      case 80001: // Mumbai
+        network = 'mumbai';
+        contract = NEXT_PUBLIC_TEST_CONTRACT_ADDRESS;
+        prefix = "testnets.";
+        break;
+      default:
+        network = 'notmumbai';
+        contract = NEXT_PUBLIC_CONTRACT_ADDRESS;
+        prefix = "";
+        break;
     }
   }
 

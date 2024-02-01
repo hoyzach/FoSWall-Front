@@ -16,6 +16,7 @@ export default function Wall() {
   const [feesAccrued, setFeesAccrued] = useState(undefined);
   const [submitClicked, setSubmitClicked] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isOnMumbai, setIsOnMumbai] = useState(false);
 
   const { network: network, contract: contract, prefix: prefix, WalletClient: WalletClient } = useClientCheck();
 
@@ -71,6 +72,12 @@ export default function Wall() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    // Check if the connected network is Mumbai
+    console.log("Current network:", network);
+    setIsOnMumbai(network === 'mumbai');
+  }, [network]);
+
   return (
     <>
       <div className="flex flex-wrap justify-center items-center px-4 lg:px-16">
@@ -79,7 +86,7 @@ export default function Wall() {
             <img src={token.imageData} alt={`Token ${token.tokenId} Image`} className="w-full h-auto rounded-3xl shadow-xl"/>
             <div className="flex justify-around pt-4 pb-4">
               <button 
-                disabled={!WalletClient}
+                disabled={!WalletClient || !isOnMumbai}
                 className="w-10 h-9 relative border border-gray-300 bg-white text-black px-2 py-1 rounded hover:text-primary hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed" 
                 onClick={() => handleLike(token.tokenId)}
               >
@@ -94,7 +101,7 @@ export default function Wall() {
                 </a>
               </button>
               <button 
-                disabled={!WalletClient}
+                disabled={!WalletClient || !isOnMumbai}
                 className="w-10 h-9 relative border border-gray-300 bg-white text-black px-2 pt-1 rounded hover:text-primary hover:bg-black disabled:opacity-50 disabled:cursor-not-allowed" 
                 onClick={() => handleDislike(token.tokenId)}
               >

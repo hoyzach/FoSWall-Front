@@ -14,8 +14,9 @@ export default function Owned() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tokenIdToBeClaimed, setTokenIdToBeClaimed] = useState(null);
   const [feesToBeClaimed, setFeesToBeClaimed] = useState(null);
+  const [isOnMumbai, setIsOnMumbai] = useState(false);
 
-  const { contract: contract, WalletClient: WalletClient } = useClientCheck();
+  const { network: network, contract: contract, WalletClient: WalletClient } = useClientCheck();
   const { executeAction: claimToken, actionTxSuccess: claimTXSuccess } = contractWrite({ writeFunctionName: 'claimToken' });
   
   let fees = [];
@@ -27,6 +28,12 @@ export default function Owned() {
   useEffect(() => {
     document.title = 'Owned | Freedom of Speech';
   }, []);
+
+  useEffect(() => {
+    // Check if the connected network is Mumbai
+    console.log("Current network:", network);
+    setIsOnMumbai(network === 'mumbai');
+  }, [network]);
 
   const fetchData = async (address) => {
     const data = await tokenData(address);
@@ -75,8 +82,11 @@ export default function Owned() {
       {!WalletClient && (
         <div className='border border-4 bg-gray-700 p-4'>Please connect your wallet.</div>
       )}
-      {WalletClient && zero && (
+      {WalletClient && isOnMumbai && zero && (
         <div className='border border-4 bg-gray-700 p-4'>You don't own any tokens. Please visit the <a href="/mint" className="hover:text-link-hover"><u>mint</u></a> page to start minting!</div>
+      )}
+      {!isOnMumbai && WalletClient && ( // Only show this message if the wallet is connected but not on the Mumbai network
+        <div className='border border-4 bg-gray-700 p-4 mb-12'>Please connect to the Mumbai network.</div>
       )}
       {/* <button className='fixed bottom-10 left-4 border border-gray-300 bg-white text-black hover:bg-black hover:text-primary text-sm px-2.5 py-1 rounded' onClick={handleRefreshFees}>Refresh fees</button> */}
       <div className="flex flex-wrap justify-center items-center px-4 lg:px-16">
@@ -85,8 +95,8 @@ export default function Owned() {
             <img src={token.imageData} alt={`Token ${token.tokenId} Image`} className="w-full h-auto rounded-3xl shadow-xl"/>
             <div className="flex justify-around pt-4 pb-4">
               <button
-                disabled={!fees || fees[index] === undefined}  // Conditional check
-                className={`relative border border-gray-300 bg-white text-black px-2 py-1 rounded font-bold ${!fees || fees[index] === undefined ? 'cursor-not-allowed opacity-50' : 'hover:text-primary hover:bg-black'}`}
+                disabled={(!fees || fees[index] === undefined) || !isOnMumbai}  // Conditional check
+                className={`relative border border-gray-300 bg-white text-black px-2 py-1 rounded font-bold ${(!fees || fees[index] === undefined) || !isOnMumbai ? 'cursor-not-allowed opacity-50' : 'hover:text-primary hover:bg-black'}`}
                 onClick={() => handleOpenModal(token.tokenId, fees[index])}
               >
                 <FontAwesomeIcon icon={faHand} />{' '}

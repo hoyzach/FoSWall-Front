@@ -6,10 +6,11 @@ import useClientCheck from '../../utils/clientCheck';
 
 export default function Mint() {
     const [expression, setExpression] = useState('');
+    const [isOnMumbai, setIsOnMumbai] = useState(false);
     const [error, setError] = useState('');
     const [isDisclaimerAccepted, setIsDisclaimerAccepted] = useState(false);
 
-    const { WalletClient: WalletClient } = useClientCheck();
+    const { network: network, WalletClient: WalletClient } = useClientCheck();
 
     const { executeAction: mint } = useContractAction({ readFunctionName: 'mintFee', writeFunctionName: 'mint' });
     const { executeAction: acceptDisclaimer } = contractWrite({ writeFunctionName: 'acceptDisclaimer' });
@@ -17,6 +18,12 @@ export default function Mint() {
     useEffect(() => {
         document.title = 'Mint | Freedom of Speech';
       }, []);
+
+    useEffect(() => {
+        // Check if the connected network is Mumbai
+        console.log("Current network:", network);
+        setIsOnMumbai(network === 'mumbai');
+    }, [network]);
 
     const handleChange = (event) => {
         event.preventDefault();
@@ -33,6 +40,9 @@ export default function Mint() {
         <>
             {!WalletClient && (
                 <div className='border border-4 bg-gray-700 p-4 mb-12'>Please connect your wallet.</div>
+            )}
+            {!isOnMumbai && WalletClient && ( // Only show this message if the wallet is connected but not on the Mumbai network
+                <div className='border border-4 bg-gray-700 p-4 mb-12'>Please connect to the Mumbai network.</div>
             )}
             <form 
                 className="w-full max-w-lg px-8 pt-6 pb-8 mb-4"
@@ -58,7 +68,7 @@ export default function Mint() {
                 <div className='flex items-center text-white'>
                     <div className="flex">
                         <button 
-                            disabled={!isDisclaimerAccepted || !WalletClient}
+                            disabled={!isDisclaimerAccepted || !WalletClient || !isOnMumbai}
                             className={`bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${!isDisclaimerAccepted ? 'opacity-50 cursor-not-allowed' : ''}`}
                             type="submit"
                         >
@@ -69,8 +79,8 @@ export default function Mint() {
                         <input 
                             type="checkbox" 
                             id="disclaimer" 
-                            disabled={!WalletClient}
-                            className={!WalletClient ? 'opacity-50 cursor-not-allowed' : ''}
+                            disabled={!WalletClient || !isOnMumbai}
+                            className={(!WalletClient || !isOnMumbai) ? 'opacity-50 cursor-not-allowed' : ''}
                             checked={isDisclaimerAccepted}
                             onChange={() => {
                                 setIsDisclaimerAccepted(!isDisclaimerAccepted);
