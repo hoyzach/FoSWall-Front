@@ -3,10 +3,11 @@ import contractABI from "../contracts/FreedomOfSpeech.json";
 import useClientCheck from "./clientCheck";
   
 function useContractReadSingle({ readFunctionName }) {
-    const { contract: contract } = useClientCheck();
+    //added for use of multiple networks
+    //const { contract: contract } = useClientCheck(); 
 
     const { data: data } = useContractRead({
-        address: contract,
+        address: process.env.NEXT_PUBLIC_TEST_CONTRACT_ADDRESS, //contract
         abi: contractABI,
         functionName: readFunctionName,
     });
