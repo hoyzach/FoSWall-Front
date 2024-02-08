@@ -5,9 +5,9 @@ import useClientCheck from '../utils/clientCheck';
 const Footer = () => {
     
     let { network: network, contract: contract } = useClientCheck();
-    if(network === 'mumbai'){
+    //if(network === 'mumbai'){
         network = 'mumbai.'
-    } else {network = ""}
+    //} else {network = ""}
 
     return (
         <footer className="bg-gray-800 sticky w-full bottom-0 text-primary underline">
